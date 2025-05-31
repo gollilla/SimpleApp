@@ -46,7 +46,8 @@ const closeDialog = () => {
 
 const handleKeydown = (event) => {
   if (event.key === 'Escape') {
-    handleReject()
+    event.preventDefault()
+    event.stopPropagation()
   }
 }
 
