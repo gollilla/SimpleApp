@@ -194,5 +194,8 @@ const showingNavigationDropdown = ref(false);
                 <slot />
             </main>
         </div>
+        
+        <!-- Global Confirmation Dialog -->
+        <ConfirmDialog />
     </div>
 </template>
