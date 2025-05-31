@@ -54,6 +54,8 @@ const handleKeydown = (event) => {
 watch(() => props.isOpen, (newValue) => {
   if (newValue && dialogRef.value) {
     dialogRef.value.showModal()
+    // ダイアログにフォーカスを設定
+    dialogRef.value.focus()
   } else if (!newValue && dialogRef.value) {
     dialogRef.value.close()
   }
