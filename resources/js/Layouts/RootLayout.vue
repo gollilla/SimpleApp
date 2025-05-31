@@ -1,5 +1,8 @@
 <script setup>
-// 今後、ナビゲーションバーなどの共通部品が追加される予定
+import ConfirmDialog from '@/Components/ConfirmDialog.vue'
+import { useConfirmDialog } from '@/composables/useConfirmDialog.js'
+
+const { isDialogOpen, dialogConfig, handleAccept, handleReject } = useConfirmDialog()
 </script>
 
 <template>
@@ -10,5 +13,16 @@
         <main class="container mx-auto">
             <slot />
         </main>
+        
+        <!-- 確認ダイアログ -->
+        <ConfirmDialog
+            :is-open="isDialogOpen"
+            :title="dialogConfig.title"
+            :message="dialogConfig.message"
+            :accept-label="dialogConfig.acceptLabel"
+            :reject-label="dialogConfig.rejectLabel"
+            @accept="handleAccept"
+            @reject="handleReject"
+        />
     </div>
 </template>

@@ -1,6 +1,24 @@
 <script setup>
 import RootLayout from '@/Layouts/RootLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import { useConfirmDialog } from '@/composables/useConfirmDialog.js';
+
+const { showConfirmDialog } = useConfirmDialog()
+
+const handleTestDialog = async () => {
+  const result = await showConfirmDialog({
+    title: 'テスト確認',
+    message: 'このダイアログはテスト用です。操作を続行しますか？',
+    acceptLabel: '続行する',
+    rejectLabel: 'キャンセル'
+  })
+  
+  if (result) {
+    alert('受け入れられました')
+  } else {
+    alert('拒否されました')
+  }
+}
 </script>
 
 <template>
@@ -20,6 +38,19 @@ import { Head } from '@inertiajs/vue3';
                                     このページはRootLayoutコンポーネントを使用しています。
                                     全ページ共通の最上位レイアウトとして機能し、メイン部分をスロットで受け入れます。
                                 </p>
+                            </section>
+                            
+                            <section>
+                                <h2 class="text-lg font-semibold mb-4">ConfirmDialog</h2>
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                    確認ダイアログコンポーネントのテストです。
+                                </p>
+                                <button 
+                                    class="btn btn-primary"
+                                    @click="handleTestDialog"
+                                >
+                                    確認ダイアログをテスト
+                                </button>
                             </section>
                         </div>
                     </div>
