@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "git",
+      "sail",
+      "composer",
+      "npm"
+    ],
+    "deny": []
+  }
+}
