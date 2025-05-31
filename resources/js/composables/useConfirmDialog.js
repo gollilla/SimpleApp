@@ -1,16 +1,17 @@
 import { ref } from 'vue'
 
-export function useConfirmDialog() {
-  const isDialogOpen = ref(false)
-  const dialogConfig = ref({
-    title: '確認',
-    message: '',
-    acceptLabel: '受け入れる',
-    rejectLabel: '拒否する'
-  })
-  
-  let resolvePromise = null
+// グローバル状態
+const isDialogOpen = ref(false)
+const dialogConfig = ref({
+  title: '確認',
+  message: '',
+  acceptLabel: '受け入れる',
+  rejectLabel: '拒否する'
+})
 
+let resolvePromise = null
+
+export function useConfirmDialog() {
   const showConfirmDialog = (options = {}) => {
     return new Promise((resolve) => {
       dialogConfig.value = {

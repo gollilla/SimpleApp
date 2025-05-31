@@ -8,6 +8,14 @@ describe('useConfirmDialog', () => {
 
   beforeEach(() => {
     composable = useConfirmDialog()
+    // グローバル状態をリセット
+    composable.isDialogOpen.value = false
+    composable.dialogConfig.value = {
+      title: '確認',
+      message: '',
+      acceptLabel: '受け入れる',
+      rejectLabel: '拒否する'
+    }
   })
 
   it('初期状態でダイアログが閉じている', () => {
@@ -82,6 +90,18 @@ describe('useConfirmDialog', () => {
 })
 
 describe('useConfirmDialog DOM integration', () => {
+  beforeEach(() => {
+    // グローバル状態をリセット
+    const composable = useConfirmDialog()
+    composable.isDialogOpen.value = false
+    composable.dialogConfig.value = {
+      title: '確認',
+      message: '',
+      acceptLabel: '受け入れる',
+      rejectLabel: '拒否する'
+    }
+  })
+
   const TestComponent = {
     template: `
       <div>
