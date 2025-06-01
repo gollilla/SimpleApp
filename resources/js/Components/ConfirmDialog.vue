@@ -1,5 +1,5 @@
 <script setup>
-import { useTemplateRef, watch } from 'vue'
+import { useTemplateRef, watch, nextTick } from 'vue'
 
 const props = defineProps({
   isOpen: {
@@ -27,6 +27,7 @@ const props = defineProps({
 const emit = defineEmits(['accept', 'reject'])
 
 const dialogRef = useTemplateRef('dialog')
+const rejectButtonRef = useTemplateRef('rejectButton')
 
 const handleAccept = () => {
   emit('accept')
@@ -46,13 +47,19 @@ const closeDialog = () => {
 
 const handleKeydown = (event) => {
   if (event.key === 'Escape') {
-    handleReject()
+    event.preventDefault()
+    event.stopPropagation()
   }
 }
 
 watch(() => props.isOpen, (newValue) => {
   if (newValue && dialogRef.value) {
     dialogRef.value.showModal()
+    nextTick(() => {
+      if (rejectButtonRef.value) {
+        rejectButtonRef.value.focus()
+      }
+    })
   } else if (!newValue && dialogRef.value) {
     dialogRef.value.close()
   }
@@ -70,8 +77,8 @@ watch(() => props.isOpen, (newValue) => {
       <p class="py-4">{{ message }}</p>
       <div class="modal-action">
         <button 
+          ref="rejectButton"
           class="btn btn-error"
-          autofocus
           @click="handleReject"
         >
           {{ rejectLabel }}
