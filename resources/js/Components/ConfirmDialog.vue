@@ -1,51 +1,49 @@
-<script setup>
+<script setup lang="ts">
 import { useTemplateRef, watch } from 'vue'
 
-const props = defineProps({
-  isOpen: {
-    type: Boolean,
-    default: false
-  },
-  title: {
-    type: String,
-    default: '確認'
-  },
-  message: {
-    type: String,
-    required: true
-  },
-  acceptLabel: {
-    type: String,
-    default: '受け入れる'
-  },
-  rejectLabel: {
-    type: String,
-    default: '拒否する'
-  }
+// 型定義
+interface Props {
+  isOpen?: boolean
+  title?: string
+  message: string
+  acceptLabel?: string
+  rejectLabel?: string
+}
+
+interface Emits {
+  accept: []
+  reject: []
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  isOpen: false,
+  title: '確認',
+  acceptLabel: '受け入れる',
+  rejectLabel: '拒否する'
 })
 
-const emit = defineEmits(['accept', 'reject'])
+const emit = defineEmits<Emits>()
 
-const dialogRef = useTemplateRef('dialog')
-const rejectButtonRef = useTemplateRef('rejectButton')
+const dialogRef = useTemplateRef<HTMLDialogElement>('dialog')
+const rejectButtonRef = useTemplateRef<HTMLButtonElement>('rejectButton')
 
-const handleAccept = () => {
+const handleAccept = (): void => {
   emit('accept')
   closeDialog()
 }
 
-const handleReject = () => {
+const handleReject = (): void => {
   emit('reject')
   closeDialog()
 }
 
-const closeDialog = () => {
+const closeDialog = (): void => {
   if (dialogRef.value) {
     dialogRef.value.close()
   }
 }
 
-const handleKeydown = (event) => {
+const handleKeydown = (event: KeyboardEvent): void => {
   if (event.key === 'Escape') {
     event.preventDefault()
     event.stopPropagation()
@@ -53,7 +51,7 @@ const handleKeydown = (event) => {
   }
 }
 
-watch(() => props.isOpen, (newValue) => {
+watch(() => props.isOpen, (newValue: boolean) => {
   if (newValue && dialogRef.value) {
     dialogRef.value.showModal()
     setTimeout(() => {

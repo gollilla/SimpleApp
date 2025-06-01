@@ -1,10 +1,10 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
-import { useConfirmDialog } from './useConfirmDialog.js'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { mount } from '@vue/test-utils'
+import { useConfirmDialog, type UseConfirmDialogReturn } from './useConfirmDialog'
 import { nextTick } from 'vue'
 
 describe('useConfirmDialog', () => {
-  let composable
+  let composable: UseConfirmDialogReturn
 
   beforeEach(() => {
     composable = useConfirmDialog()
@@ -23,7 +23,7 @@ describe('useConfirmDialog', () => {
   })
 
   it('showConfirmDialogでダイアログが開く', async () => {
-    const promise = composable.showConfirmDialog({
+    const promise: Promise<boolean> = composable.showConfirmDialog({
       message: 'テストメッセージ'
     })
 
@@ -32,7 +32,7 @@ describe('useConfirmDialog', () => {
     expect(composable.dialogConfig.value.message).toBe('テストメッセージ')
 
     composable.handleAccept()
-    const result = await promise
+    const result: boolean = await promise
     expect(result).toBe(true)
   })
 
@@ -53,24 +53,24 @@ describe('useConfirmDialog', () => {
   })
 
   it('handleAcceptでtrueが返される', async () => {
-    const promise = composable.showConfirmDialog({
+    const promise: Promise<boolean> = composable.showConfirmDialog({
       message: 'テスト'
     })
 
     composable.handleAccept()
-    const result = await promise
+    const result: boolean = await promise
 
     expect(result).toBe(true)
     expect(composable.isDialogOpen.value).toBe(false)
   })
 
   it('handleRejectでfalseが返される', async () => {
-    const promise = composable.showConfirmDialog({
+    const promise: Promise<boolean> = composable.showConfirmDialog({
       message: 'テスト'
     })
 
     composable.handleReject()
-    const result = await promise
+    const result: boolean = await promise
 
     expect(result).toBe(false)
     expect(composable.isDialogOpen.value).toBe(false)
@@ -116,7 +116,7 @@ describe('useConfirmDialog DOM integration', () => {
     setup() {
       const { isDialogOpen, dialogConfig, showConfirmDialog, handleAccept, handleReject } = useConfirmDialog()
       
-      const showDialog = () => {
+      const showDialog = (): void => {
         showConfirmDialog({
           message: 'DOM テストメッセージ',
           acceptLabel: 'OK',
