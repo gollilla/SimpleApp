@@ -1,5 +1,6 @@
 <script setup>
 import RootLayout from '@/Layouts/RootLayout.vue';
+import NavigationBar from '@/Components/NavigationBar.vue';
 import { Head } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@/composables/useConfirmDialog.js';
 
@@ -32,6 +33,24 @@ const handleTestDialog = async () => {
                         <h1 class="text-2xl font-bold mb-6">コンポーネント確認ページ</h1>
                         
                         <div class="space-y-8">
+                            <section>
+                                <h2 class="text-lg font-semibold mb-4">NavigationBar</h2>
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                    DaisyUIを使用したナビゲーションバーコンポーネントです。
+                                    ブランドロゴをpropsで設定でき、右側にメニューボタンがあります。
+                                </p>
+                                <div class="border rounded-lg p-4 bg-base-100">
+                                    <NavigationBar brand-logo="サンプルブランド" />
+                                </div>
+                                <div class="mt-4 border rounded-lg p-4 bg-base-100">
+                                    <NavigationBar brand-logo="カスタムブランド">
+                                        <li><a>ホーム</a></li>
+                                        <li><a>サービス</a></li>
+                                        <li><a>お問い合わせ</a></li>
+                                    </NavigationBar>
+                                </div>
+                            </section>
+                            
                             <section>
                                 <h2 class="text-lg font-semibold mb-4">RootLayout</h2>
                                 <p class="text-gray-600 dark:text-gray-400">
