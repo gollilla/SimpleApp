@@ -46,16 +46,13 @@ const closeDialog = () => {
 
 const handleKeydown = (event) => {
   if (event.key === 'Escape') {
-    event.preventDefault()
-    event.stopPropagation()
+    handleReject()
   }
 }
 
 watch(() => props.isOpen, (newValue) => {
   if (newValue && dialogRef.value) {
     dialogRef.value.showModal()
-    // ダイアログにフォーカスを設定
-    dialogRef.value.focus()
   } else if (!newValue && dialogRef.value) {
     dialogRef.value.close()
   }
@@ -74,6 +71,7 @@ watch(() => props.isOpen, (newValue) => {
       <div class="modal-action">
         <button 
           class="btn btn-error"
+          autofocus
           @click="handleReject"
         >
           {{ rejectLabel }}
