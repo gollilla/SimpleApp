@@ -1,5 +1,5 @@
 <script setup>
-import { useTemplateRef, watch, nextTick } from 'vue'
+import { useTemplateRef, watch } from 'vue'
 
 const props = defineProps({
   isOpen: {
@@ -56,11 +56,11 @@ const handleKeydown = (event) => {
 watch(() => props.isOpen, (newValue) => {
   if (newValue && dialogRef.value) {
     dialogRef.value.showModal()
-    nextTick(() => {
+    setTimeout(() => {
       if (rejectButtonRef.value) {
         rejectButtonRef.value.focus()
       }
-    })
+    }, 100)
   } else if (!newValue && dialogRef.value) {
     dialogRef.value.close()
   }
