@@ -43,15 +43,6 @@ describe('NavigationBar', () => {
         expect(menuText).toContain('メニュー項目 3');
     });
 
-    it('スロットでカスタムメニュー項目を渡せる', () => {
-        const wrapper = mount(NavigationBar, {
-            slots: {
-                default: '<li><a>カスタムメニュー</a></li>'
-            }
-        });
-        
-        expect(wrapper.text()).toContain('カスタムメニュー');
-    });
 
     it('正しいDaisyUIクラスが適用されている', () => {
         const wrapper = mount(NavigationBar);

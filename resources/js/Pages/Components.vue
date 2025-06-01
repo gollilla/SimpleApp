@@ -37,17 +37,13 @@ const handleTestDialog = async () => {
                                 <h2 class="text-lg font-semibold mb-4">NavigationBar</h2>
                                 <p class="text-gray-600 dark:text-gray-400 mb-4">
                                     DaisyUIを使用したナビゲーションバーコンポーネントです。
-                                    ブランドロゴをpropsで設定でき、右側にメニューボタンがあります。
+                                    ブランドロゴをpropsで設定でき、右側に固定のメニューボタンがあります。
                                 </p>
                                 <div class="border rounded-lg p-4 bg-base-100">
                                     <NavigationBar brand-logo="サンプルブランド" />
                                 </div>
                                 <div class="mt-4 border rounded-lg p-4 bg-base-100">
-                                    <NavigationBar brand-logo="カスタムブランド">
-                                        <li><a>ホーム</a></li>
-                                        <li><a>サービス</a></li>
-                                        <li><a>お問い合わせ</a></li>
-                                    </NavigationBar>
+                                    <NavigationBar brand-logo="カスタムブランド" />
                                 </div>
                             </section>
                             
