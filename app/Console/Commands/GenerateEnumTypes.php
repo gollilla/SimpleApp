@@ -49,7 +49,7 @@ class GenerateEnumTypes extends Command
             $cases = $reflection->getCases();
 
             // Enum値の型定義
-            $values = array_map(fn($case) => "'" . $case->getValue() . "'", $cases);
+            $values = array_map(fn($case) => "'" . $case->getBackingValue() . "'", $cases);
             $content .= "export type {$enumName}Value = " . implode(' | ', $values) . ";\n\n";
 
             // Enumオブジェクトの型定義
