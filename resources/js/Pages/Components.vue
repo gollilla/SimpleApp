@@ -3,8 +3,10 @@ import RootLayout from '@/Layouts/RootLayout.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
 import { Head } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@/composables/useConfirmDialog.js';
+import { useEnums } from '@/composables/useEnums.ts';
 
 const { showConfirmDialog } = useConfirmDialog()
+const { enums, getUserStatusOptions } = useEnums()
 
 const handleTestDialog = async () => {
   const result = await showConfirmDialog({
@@ -66,6 +68,34 @@ const handleTestDialog = async () => {
                                 >
                                     確認ダイアログをテスト
                                 </button>
+                            </section>
+                            
+                            <section>
+                                <h2 class="text-lg font-semibold mb-4">Enum 連携テスト</h2>
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                    PHPのEnumがフロントエンドで利用可能になっています。
+                                </p>
+                                
+                                <div class="space-y-4">
+                                    <div>
+                                        <h3 class="font-medium mb-2">UserStatus Enum データ:</h3>
+                                        <pre class="bg-base-200 p-4 rounded text-sm overflow-x-auto">{{ JSON.stringify(enums.UserStatus, null, 2) }}</pre>
+                                    </div>
+                                    
+                                    <div>
+                                        <h3 class="font-medium mb-2">セレクトボックス用オプション:</h3>
+                                        <select class="select select-bordered w-full max-w-xs">
+                                            <option disabled selected>ユーザーステータスを選択</option>
+                                            <option 
+                                                v-for="option in getUserStatusOptions()" 
+                                                :key="option.value"
+                                                :value="option.value"
+                                            >
+                                                {{ option.label }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
                             </section>
                         </div>
                     </div>

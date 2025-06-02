@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\EnumService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -29,11 +30,14 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $enumService = app(EnumService::class);
+        
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
+            'enums' => $enumService->getEnumsWithHelpers(),
         ];
     }
 }
