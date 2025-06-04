@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserStatus;
+use App\Facades\Enum;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -34,6 +36,9 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'enums' => Enum::convertToArray([
+                UserStatus::class,
+            ]),
         ];
     }
 }

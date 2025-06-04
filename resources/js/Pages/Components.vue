@@ -13,7 +13,7 @@ const handleTestDialog = async () => {
     acceptLabel: '続行する',
     rejectLabel: 'キャンセル'
   })
-  
+
   if (result) {
     alert('受け入れられました')
   } else {
@@ -31,7 +31,7 @@ const handleTestDialog = async () => {
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <h1 class="text-2xl font-bold mb-6">コンポーネント確認ページ</h1>
-                        
+
                         <div class="space-y-8">
                             <section>
                                 <h2 class="text-lg font-semibold mb-4">NavigationBar</h2>
@@ -46,7 +46,7 @@ const handleTestDialog = async () => {
                                     <NavigationBar brand-logo="カスタムブランド" />
                                 </div>
                             </section>
-                            
+
                             <section>
                                 <h2 class="text-lg font-semibold mb-4">RootLayout</h2>
                                 <p class="text-gray-600 dark:text-gray-400">
@@ -54,13 +54,13 @@ const handleTestDialog = async () => {
                                     全ページ共通の最上位レイアウトとして機能し、メイン部分をスロットで受け入れます。
                                 </p>
                             </section>
-                            
+
                             <section>
                                 <h2 class="text-lg font-semibold mb-4">ConfirmDialog</h2>
                                 <p class="text-gray-600 dark:text-gray-400 mb-4">
                                     確認ダイアログコンポーネントのテストです。
                                 </p>
-                                <button 
+                                <button
                                     class="btn btn-primary"
                                     @click="handleTestDialog"
                                 >
