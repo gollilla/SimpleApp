@@ -7,10 +7,21 @@ export interface User {
   email_verified_at: string | null;
 }
 
+export interface EnumValue {
+  value: string;
+  name: string;
+  label: string;
+}
+
+export interface Enums {
+  UserStatus: EnumValue[];
+}
+
 export interface PageProps {
   auth: {
-    user: User;
+    user: User | null;
   };
+  enums?: Enums;
   [key: string]: any;
 }
 
