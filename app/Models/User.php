@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'status',
     ];
 
     /**
@@ -46,6 +48,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'role' => UserRole::class,
+            'status' => UserStatus::class,
         ];
     }
 
@@ -87,5 +90,37 @@ class User extends Authenticatable
     public function isUser(): bool
     {
         return $this->getRole()->isUser();
+    }
+
+    /**
+     * ユーザーのステータスを取得
+     */
+    public function getStatus(): UserStatus
+    {
+        return $this->status ?? UserStatus::ACTIVE;
+    }
+
+    /**
+     * ユーザーがアクティブかチェック
+     */
+    public function isActive(): bool
+    {
+        return $this->getStatus() === UserStatus::ACTIVE;
+    }
+
+    /**
+     * ユーザーが停止中かチェック
+     */
+    public function isSuspended(): bool
+    {
+        return $this->getStatus() === UserStatus::SUSPENDED;
+    }
+
+    /**
+     * ユーザーが承認待ちかチェック
+     */
+    public function isPending(): bool
+    {
+        return $this->getStatus() === UserStatus::PENDING;
     }
 }

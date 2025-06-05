@@ -1,8 +1,12 @@
 <script setup>
 import RootLayout from '@/Layouts/RootLayout.vue';
 import NavigationBar from '@/Components/NavigationBar.vue';
+import SearchInput from '@/Components/Admin/SearchInput.vue';
+import StatusSelector from '@/Components/Admin/StatusSelector.vue';
+import UserStatusBadge from '@/Components/Admin/UserStatusBadge.vue';
 import { Head } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@/composables/useConfirmDialog.js';
+import { ref } from 'vue';
 
 const { showConfirmDialog } = useConfirmDialog()
 
@@ -19,6 +23,29 @@ const handleTestDialog = async () => {
   } else {
     alert('拒否されました')
   }
+}
+
+// 管理画面コンポーネントのテスト用データ
+const searchValue = ref('')
+const selectedStatus = ref('')
+const statusOptions = [
+  { value: '', label: 'すべて' },
+  { value: 'active', label: 'アクティブ' },
+  { value: 'inactive', label: '非アクティブ' },
+  { value: 'pending', label: '承認待ち' },
+  { value: 'suspended', label: '停止中' }
+]
+
+const handleSearch = (value) => {
+  // デバッグ用: 検索処理のログ出力
+  // eslint-disable-next-line no-console, no-undef
+  console.log('検索:', value)
+}
+
+const handleStatusChange = (value) => {
+  // デバッグ用: ステータス変更処理のログ出力
+  // eslint-disable-next-line no-console, no-undef
+  console.log('ステータス変更:', value)
 }
 </script>
 
@@ -66,6 +93,49 @@ const handleTestDialog = async () => {
                                 >
                                     確認ダイアログをテスト
                                 </button>
+                            </section>
+
+                            <section>
+                                <h2 class="text-lg font-semibold mb-4">管理画面コンポーネント</h2>
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                    管理画面で使用するコンポーネントのテストです。
+                                </p>
+                                
+                                <div class="space-y-6">
+                                    <div>
+                                        <h3 class="text-md font-medium mb-2">SearchInput</h3>
+                                        <div class="w-full max-w-md">
+                                            <SearchInput
+                                                v-model="searchValue"
+                                                placeholder="ユーザーを検索..."
+                                                label="ユーザー検索"
+                                                @search="handleSearch"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h3 class="text-md font-medium mb-2">StatusSelector</h3>
+                                        <div class="w-full max-w-md">
+                                            <StatusSelector
+                                                v-model="selectedStatus"
+                                                :options="statusOptions"
+                                                label="ステータス選択"
+                                                @change="handleStatusChange"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h3 class="text-md font-medium mb-2">UserStatusBadge</h3>
+                                        <div class="flex flex-wrap gap-2">
+                                            <UserStatusBadge status="active" />
+                                            <UserStatusBadge status="inactive" />
+                                            <UserStatusBadge status="pending" />
+                                            <UserStatusBadge status="suspended" />
+                                        </div>
+                                    </div>
+                                </div>
                             </section>
                         </div>
                     </div>
