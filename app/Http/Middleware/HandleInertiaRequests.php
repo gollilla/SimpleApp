@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Facades\Enum;
 use Illuminate\Http\Request;
@@ -34,9 +35,17 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? [
+                    'id' => $request->user()->id,
+                    'name' => $request->user()->name,
+                    'email' => $request->user()->email,
+                    'role' => $request->user()->role->value,
+                    'role_label' => $request->user()->getRoleLabel(),
+                    'is_admin' => $request->user()->isAdmin(),
+                ] : null,
             ],
             'enums' => Enum::convertToArray([
+                UserRole::class,
                 UserStatus::class,
             ]),
         ];

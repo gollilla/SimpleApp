@@ -39,6 +39,14 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
+                                <!-- 管理者リンク -->
+                                <NavLink
+                                    v-if="$page.props.auth.user && $page.props.auth.user.is_admin"
+                                    :href="route('admin.dashboard')"
+                                    :active="route().current('admin.*')"
+                                >
+                                    管理画面
+                                </NavLink>
                             </div>
                         </div>
 
@@ -145,6 +153,14 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('dashboard')"
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <!-- 管理者リンク（レスポンシブ） -->
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user && $page.props.auth.user.is_admin"
+                            :href="route('admin.dashboard')"
+                            :active="route().current('admin.*')"
+                        >
+                            管理画面
                         </ResponsiveNavLink>
                     </div>
 
