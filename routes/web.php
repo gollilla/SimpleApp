@@ -28,4 +28,10 @@ Route::get('/components', function () {
     return Inertia::render('Components');
 });
 
+// Admin routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+});
+
 require __DIR__.'/auth.php';
