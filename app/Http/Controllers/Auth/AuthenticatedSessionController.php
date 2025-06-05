@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Enums\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // ユーザーのロールによってリダイレクト先を分岐
+        $user = Auth::user();
+        
+        if ($user && $user->isAdmin()) {
+            // 管理者の場合は管理画面へ（intendedの値に関係なく）
+            $request->session()->forget('url.intended');
+            return redirect()->route('admin.dashboard');
+        }
+        
+        // 一般ユーザーの場合はユーザーダッシュボードへ
+        return redirect()->intended(route('dashboard'));
     }
 
     /**

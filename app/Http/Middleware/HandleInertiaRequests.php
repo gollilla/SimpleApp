@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Enums\UserStatus;
+use App\Enums\UserRole;
 use App\Facades\Enum;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -38,6 +39,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'enums' => Enum::convertToArray([
                 UserStatus::class,
+                UserRole::class,
             ]),
         ];
     }
