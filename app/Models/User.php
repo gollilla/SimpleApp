@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -43,6 +45,47 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => UserRole::class,
         ];
+    }
+
+    /**
+     * ユーザーのロールを取得
+     */
+    public function getRole(): UserRole
+    {
+        return $this->role ?? UserRole::USER;
+    }
+
+    /**
+     * 指定されたロール以上の権限を持っているかチェック
+     */
+    public function hasRole(UserRole $role): bool
+    {
+        return $this->getRole()->hasPermissionLevel($role);
+    }
+
+    /**
+     * 管理者権限を持っているかチェック
+     */
+    public function isAdmin(): bool
+    {
+        return $this->getRole()->isAdmin();
+    }
+
+    /**
+     * モデレーター以上の権限を持っているかチェック
+     */
+    public function isModerator(): bool
+    {
+        return $this->getRole()->isModerator();
+    }
+
+    /**
+     * 一般ユーザー以上の権限を持っているかチェック
+     */
+    public function isUser(): bool
+    {
+        return $this->getRole()->isUser();
     }
 }
