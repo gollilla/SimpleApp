@@ -1,7 +1,7 @@
 <template>
-    <div class="navbar bg-base-100">
+    <div class="navbar bg-base-100 shadow-lg">
         <div class="navbar-start">
-            <a class="btn btn-ghost text-xl">{{ brandLogo }}</a>
+            <Link :href="route('admin.dashboard')" class="btn btn-ghost text-xl">{{ brandLogo }}</Link>
         </div>
         <div class="navbar-end">
             <div class="dropdown dropdown-end">
@@ -30,9 +30,21 @@
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                     data-testid="menu-items"
                 >
-                    <li><a>メニュー項目 1</a></li>
-                    <li><a>メニュー項目 2</a></li>
-                    <li><a>メニュー項目 3</a></li>
+                    <li><Link :href="route('admin.dashboard')">📊 ダッシュボード</Link></li>
+                    <li><Link :href="route('admin.users.index')">👥 ユーザー管理</Link></li>
+                    <li><Link :href="route('admin.settings.index')">⚙️ システム設定</Link></li>
+                    <li><hr /></li>
+                    <li><Link :href="route('admin.reports.users')">📈 ユーザーレポート</Link></li>
+                    <li><Link :href="route('admin.reports.system')">🖥️ システムレポート</Link></li>
+                    <li><hr /></li>
+                    <li>
+                        <Link :href="route('profile.edit')" class="text-info">👤 プロフィール</Link>
+                    </li>
+                    <li>
+                        <Link :href="route('logout')" method="post" as="button" class="text-error">
+                            🚪 ログアウト
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -40,11 +52,13 @@
 </template>
 
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
+
 interface Props {
     brandLogo?: string;
 }
 
 withDefaults(defineProps<Props>(), {
-    brandLogo: 'ブランド名'
+    brandLogo: 'SimpleApp'
 });
 </script>

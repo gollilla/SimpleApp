@@ -9,7 +9,8 @@ describe('UserStatusBadge', () => {
   it('activeステータスが正しく表示される', () => {
     const wrapper = mount(UserStatusBadge, {
       props: {
-        status: 'active'
+        status: 'active',
+        label: 'アクティブ'
       }
     })
 
@@ -21,7 +22,8 @@ describe('UserStatusBadge', () => {
   it('inactiveステータスが正しく表示される', () => {
     const wrapper = mount(UserStatusBadge, {
       props: {
-        status: 'inactive'
+        status: 'inactive',
+        label: '非アクティブ'
       }
     })
 
@@ -33,7 +35,8 @@ describe('UserStatusBadge', () => {
   it('pendingステータスが正しく表示される', () => {
     const wrapper = mount(UserStatusBadge, {
       props: {
-        status: 'pending'
+        status: 'pending',
+        label: '承認待ち'
       }
     })
 
@@ -45,7 +48,8 @@ describe('UserStatusBadge', () => {
   it('suspendedステータスが正しく表示される', () => {
     const wrapper = mount(UserStatusBadge, {
       props: {
-        status: 'suspended'
+        status: 'suspended',
+        label: '停止中'
       }
     })
 
@@ -57,7 +61,8 @@ describe('UserStatusBadge', () => {
   it('未知のステータスがデフォルト表示される', () => {
     const wrapper = mount(UserStatusBadge, {
       props: {
-        status: 'unknown'
+        status: 'unknown',
+        label: 'unknown'
       }
     })
 

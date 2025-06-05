@@ -13,6 +13,11 @@ const props = defineProps({
   status: {
     type: String,
     required: true
+  },
+  /** ステータスラベル */
+  label: {
+    type: String,
+    required: true
   }
 })
 
@@ -20,13 +25,7 @@ const props = defineProps({
  * ステータスのラベル取得
  */
 const statusLabel = computed(() => {
-  const statusLabels = {
-    'active': 'アクティブ',
-    'inactive': '非アクティブ',
-    'pending': '承認待ち',
-    'suspended': '停止中'
-  }
-  return statusLabels[props.status] || props.status
+  return props.label
 })
 
 /**

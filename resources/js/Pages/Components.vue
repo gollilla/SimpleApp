@@ -129,10 +129,10 @@ const handleStatusChange = (value) => {
                                     <div>
                                         <h3 class="text-md font-medium mb-2">UserStatusBadge</h3>
                                         <div class="flex flex-wrap gap-2">
-                                            <UserStatusBadge status="active" />
-                                            <UserStatusBadge status="inactive" />
-                                            <UserStatusBadge status="pending" />
-                                            <UserStatusBadge status="suspended" />
+                                            <UserStatusBadge status="active" label="アクティブ" />
+                                            <UserStatusBadge status="inactive" label="非アクティブ" />
+                                            <UserStatusBadge status="pending" label="承認待ち" />
+                                            <UserStatusBadge status="suspended" label="停止中" />
                                         </div>
                                     </div>
                                 </div>

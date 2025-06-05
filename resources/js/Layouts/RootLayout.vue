@@ -1,5 +1,6 @@
 <script setup>
 import ConfirmDialog from '@/Components/ConfirmDialog.vue'
+import NavigationBar from '@/Components/NavigationBar.vue'
 import { useConfirmDialog } from '@/composables/useConfirmDialog.js'
 
 const { isDialogOpen, dialogConfig, handleAccept, handleReject } = useConfirmDialog()
@@ -7,7 +8,8 @@ const { isDialogOpen, dialogConfig, handleAccept, handleReject } = useConfirmDia
 
 <template>
     <div class="min-h-screen bg-base-100">
-        <!-- 将来的にナビゲーションバーが追加される場所 -->
+        <!-- ナビゲーションバー -->
+        <NavigationBar />
         
         <!-- メインコンテンツエリア -->
         <main class="container mx-auto">

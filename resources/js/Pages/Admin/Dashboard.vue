@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, usePage } from '@inertiajs/vue3'
 import RootLayout from '@/Layouts/RootLayout.vue'
+import UserStatusBadge from '@/Components/Admin/UserStatusBadge.vue'
 
 /**
  * 管理画面ダッシュボードページ
@@ -39,42 +40,27 @@ const formatDate = (dateString) => {
 }
 
 /**
+ * 共有Enumデータを取得
+ */
+const { enums } = usePage().props
+
+/**
  * ロールのラベル取得
  */
 const getRoleLabel = (role) => {
-  const roleLabels = {
-    'admin': '管理者',
-    'moderator': 'モデレーター',
-    'user': '一般ユーザー',
-    'guest': 'ゲスト'
-  }
-  return roleLabels[role] || role
+  // valueで検索してマッチするEnumを探す
+  const roleEnum = Object.values(enums.UserRole || {}).find(r => r.value === role)
+  return roleEnum?.label || role
 }
 
-/**
- * ステータスのバッジ色取得
- */
-const getStatusBadgeClass = (status) => {
-  const statusClasses = {
-    'active': 'badge-success',
-    'inactive': 'badge-neutral',
-    'pending': 'badge-warning',
-    'suspended': 'badge-error'
-  }
-  return statusClasses[status] || 'badge-neutral'
-}
 
 /**
  * ステータスのラベル取得
  */
 const getStatusLabel = (status) => {
-  const statusLabels = {
-    'active': 'アクティブ',
-    'inactive': '非アクティブ',
-    'pending': '承認待ち',
-    'suspended': '停止中'
-  }
-  return statusLabels[status] || status
+  // valueで検索してマッチするEnumを探す
+  const statusEnum = Object.values(enums.UserStatus || {}).find(s => s.value === status)
+  return statusEnum?.label || status
 }
 </script>
 
@@ -85,7 +71,12 @@ const getStatusLabel = (status) => {
     <div class="p-6">
       <!-- ページヘッダー -->
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-base-content">管理画面ダッシュボード</h1>
+        <div class="breadcrumbs text-sm">
+          <ul>
+            <li>ダッシュボード</li>
+          </ul>
+        </div>
+        <h1 class="text-3xl font-bold text-base-content mt-2">管理画面ダッシュボード</h1>
         <p class="text-base-content/70 mt-2">システムの概要と最新の活動状況</p>
       </div>
 
@@ -195,9 +186,10 @@ const getStatusLabel = (status) => {
                         <div class="badge badge-outline">{{ getRoleLabel(user.role) }}</div>
                       </td>
                       <td>
-                        <div class="badge" :class="getStatusBadgeClass(user.status)">
-                          {{ getStatusLabel(user.status) }}
-                        </div>
+                        <UserStatusBadge 
+                          :status="user.status" 
+                          :label="getStatusLabel(user.status)"
+                        />
                       </td>
                       <td>{{ formatDate(user.created_at) }}</td>
                     </tr>

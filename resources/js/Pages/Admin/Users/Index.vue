@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import RootLayout from '@/Layouts/RootLayout.vue'
 import SearchInput from '@/Components/Admin/SearchInput.vue'
 import StatusSelector from '@/Components/Admin/StatusSelector.vue'
@@ -44,6 +44,11 @@ const selectedRole = ref(props.filters.role || '')
 const selectedStatus = ref(props.filters.status || '')
 const sortBy = ref(props.filters.sort_by || 'created_at')
 const sortOrder = ref(props.filters.sort_order || 'desc')
+
+/**
+ * 共有Enumデータを取得
+ */
+const { enums } = usePage().props
 
 /**
  * ロール選択肢
@@ -120,26 +125,18 @@ const getSortIcon = (field) => {
  * ロールのラベル取得
  */
 const getRoleLabel = (role) => {
-  const roleLabels = {
-    'admin': '管理者',
-    'moderator': 'モデレーター',
-    'user': '一般ユーザー',
-    'guest': 'ゲスト'
-  }
-  return roleLabels[role] || role
+  // valueで検索してマッチするEnumを探す
+  const roleEnum = Object.values(enums.UserRole || {}).find(r => r.value === role)
+  return roleEnum?.label || role
 }
 
 /**
  * ステータスのラベル取得
  */
 const getStatusLabel = (status) => {
-  const statusLabels = {
-    'active': 'アクティブ',
-    'inactive': '非アクティブ',
-    'pending': '承認待ち',
-    'suspended': '停止中'
-  }
-  return statusLabels[status] || status
+  // valueで検索してマッチするEnumを探す
+  const statusEnum = Object.values(enums.UserStatus || {}).find(s => s.value === status)
+  return statusEnum?.label || status
 }
 
 /**
@@ -156,18 +153,26 @@ const formatDate = (dateString) => {
     
     <div class="p-6">
       <!-- ページヘッダー -->
-      <div class="flex justify-between items-center mb-6">
-        <div>
-          <h1 class="text-3xl font-bold text-base-content">ユーザー管理</h1>
-          <p class="text-base-content/70 mt-1">登録ユーザーの一覧と管理</p>
+      <div class="mb-6">
+        <div class="breadcrumbs text-sm">
+          <ul>
+            <li><Link :href="route('admin.dashboard')">ダッシュボード</Link></li>
+            <li>ユーザー管理</li>
+          </ul>
         </div>
-        <Link 
-          :href="route('admin.users.create')" 
-          class="btn btn-primary"
-        >
-          <span class="mr-2">➕</span>
-          新規ユーザー作成
-        </Link>
+        <div class="flex justify-between items-start mt-2">
+          <div>
+            <h1 class="text-3xl font-bold text-base-content">ユーザー管理</h1>
+            <p class="text-base-content/70 mt-1">登録ユーザーの一覧と管理</p>
+          </div>
+          <Link 
+            :href="route('admin.users.create')" 
+            class="btn btn-primary"
+          >
+            <span class="mr-2">➕</span>
+            新規ユーザー作成
+          </Link>
+        </div>
       </div>
 
       <!-- フィルターパネル -->
@@ -277,7 +282,10 @@ const formatDate = (dateString) => {
                     </div>
                   </td>
                   <td>
-                    <UserStatusBadge :status="user.status" />
+                    <UserStatusBadge 
+                      :status="user.status" 
+                      :label="getStatusLabel(user.status)"
+                    />
                   </td>
                   <td>{{ formatDate(user.created_at) }}</td>
                   <td>
@@ -310,18 +318,25 @@ const formatDate = (dateString) => {
             </div>
             
             <div class="join">
-              <Link
-                v-for="link in users.links"
-                :key="link.label"
-                :href="link.url"
-                class="join-item btn btn-sm"
-                :class="{
-                  'btn-active': link.active,
-                  'btn-disabled': !link.url
-                }"
-              >
-                {{ link.label }}
-              </Link>
+              <template v-for="link in users.links" :key="link.label">
+                <Link
+                  v-if="link.url"
+                  :href="link.url"
+                  class="join-item btn btn-sm"
+                  :class="{
+                    'btn-active': link.active
+                  }"
+                >
+                  {{ link.label }}
+                </Link>
+                <button
+                  v-else
+                  class="join-item btn btn-sm btn-disabled"
+                  disabled
+                >
+                  {{ link.label }}
+                </button>
+              </template>
             </div>
           </div>
         </div>
