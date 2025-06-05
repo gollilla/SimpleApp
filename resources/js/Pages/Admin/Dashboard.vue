@@ -183,7 +183,7 @@ const getStatusLabel = (status) => {
                       <td>{{ user.name }}</td>
                       <td>{{ user.email }}</td>
                       <td>
-                        <div class="badge badge-outline">{{ getRoleLabel(user.role) }}</div>
+                        <div class="badge badge-outline whitespace-nowrap">{{ getRoleLabel(user.role) }}</div>
                       </td>
                       <td>
                         <UserStatusBadge 

@@ -128,7 +128,7 @@ const accountSummary = computed(() => {
                   <div>
                     <label class="text-sm font-medium text-base-content/70">ロール</label>
                     <div class="flex items-center space-x-2">
-                      <div class="badge badge-outline">{{ getRoleLabel(user.role) }}</div>
+                      <div class="badge badge-outline whitespace-nowrap">{{ getRoleLabel(user.role) }}</div>
                     </div>
                   </div>
 
@@ -146,10 +146,10 @@ const accountSummary = computed(() => {
                 <div>
                   <label class="text-sm font-medium text-base-content/70">メール認証</label>
                   <div class="flex items-center space-x-2">
-                    <div v-if="accountSummary.emailVerified" class="badge badge-success">
+                    <div v-if="accountSummary.emailVerified" class="badge badge-success whitespace-nowrap">
                       ✓ 認証済み
                     </div>
-                    <div v-else class="badge badge-warning">
+                    <div v-else class="badge badge-warning whitespace-nowrap">
                       ⚠ 未認証
                     </div>
                     <span v-if="user.email_verified_at" class="text-sm text-base-content/70">

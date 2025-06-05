@@ -10,16 +10,7 @@ import RootLayout from '@/Layouts/RootLayout.vue'
  * プロパティ定義
  */
 const props = defineProps({
-  /** ロール一覧 */
-  roles: {
-    type: Array,
-    required: true
-  },
-  /** ステータス一覧 */
-  statuses: {
-    type: Array,
-    required: true
-  }
+  // Enumデータは共有されているため、propsは不要
 })
 
 /**
@@ -190,11 +181,11 @@ const getStatusLabel = (status) => {
                 >
                   <option value="">ロールを選択してください</option>
                   <option 
-                    v-for="role in roles" 
+                    v-for="role in Object.values(enums.UserRole || {})" 
                     :key="role.value" 
                     :value="role.value"
                   >
-                    {{ getRoleLabel(role.value) }}
+                    {{ role.label }}
                   </option>
                 </select>
                 <div v-if="form.errors.role" class="label">
@@ -215,11 +206,11 @@ const getStatusLabel = (status) => {
                 >
                   <option value="">ステータスを選択してください</option>
                   <option 
-                    v-for="status in statuses" 
+                    v-for="status in Object.values(enums.UserStatus || {})" 
                     :key="status.value" 
                     :value="status.value"
                   >
-                    {{ getStatusLabel(status.value) }}
+                    {{ status.label }}
                   </option>
                 </select>
                 <div v-if="form.errors.status" class="label">

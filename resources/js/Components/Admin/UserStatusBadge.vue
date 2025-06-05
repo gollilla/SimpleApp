@@ -56,7 +56,7 @@ const statusIcon = computed(() => {
 </script>
 
 <template>
-  <div class="badge" :class="badgeClass">
+  <div class="badge whitespace-nowrap" :class="badgeClass">
     <span class="mr-1">{{ statusIcon }}</span>
     {{ statusLabel }}
   </div>

@@ -16,16 +16,6 @@ const props = defineProps({
   user: {
     type: Object,
     required: true
-  },
-  /** ロール一覧 */
-  roles: {
-    type: Array,
-    required: true
-  },
-  /** ステータス一覧 */
-  statuses: {
-    type: Array,
-    required: true
   }
 })
 
@@ -243,11 +233,11 @@ const formatDate = (dateString) => {
                     >
                       <option value="">ロールを選択してください</option>
                       <option 
-                        v-for="role in roles" 
+                        v-for="role in Object.values(enums.UserRole || {})" 
                         :key="role.value" 
                         :value="role.value"
                       >
-                        {{ getRoleLabel(role.value) }}
+                        {{ role.label }}
                       </option>
                     </select>
                     <div v-if="isSelf" class="label">
@@ -272,11 +262,11 @@ const formatDate = (dateString) => {
                     >
                       <option value="">ステータスを選択してください</option>
                       <option 
-                        v-for="status in statuses" 
+                        v-for="status in Object.values(enums.UserStatus || {})" 
                         :key="status.value" 
                         :value="status.value"
                       >
-                        {{ getStatusLabel(status.value) }}
+                        {{ status.label }}
                       </option>
                     </select>
                     <div v-if="isSelf" class="label">

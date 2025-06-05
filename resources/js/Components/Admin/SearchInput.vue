@@ -79,30 +79,22 @@ const clearSearch = () => {
       <span class="label-text">{{ label }}</span>
     </label>
     
-    <div class="input-group">
+    <div class="relative">
       <input
         v-model="inputValue"
         type="text"
         :placeholder="placeholder"
-        class="input input-bordered w-full"
+        class="input input-bordered w-full pr-10"
         @keydown="handleKeydown"
       />
       
       <button
         v-if="inputValue"
         @click="clearSearch"
-        class="btn btn-square btn-outline"
+        class="absolute right-2 top-1/2 transform -translate-y-1/2 btn btn-xs btn-ghost btn-circle"
         title="クリア"
       >
         ❌
-      </button>
-      
-      <button
-        @click="handleSearch"
-        class="btn btn-square btn-primary"
-        title="検索"
-      >
-        🔍
       </button>
     </div>
   </div>

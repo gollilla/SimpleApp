@@ -56,8 +56,6 @@ class UserController extends Controller
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,
             'filters' => $request->only(['search', 'role', 'status', 'sort_by', 'sort_order']),
-            'roles' => UserRole::cases(),
-            'statuses' => UserStatus::cases(),
         ]);
     }
 
@@ -76,10 +74,7 @@ class UserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Admin/Users/Create', [
-            'roles' => UserRole::cases(),
-            'statuses' => UserStatus::cases(),
-        ]);
+        return Inertia::render('Admin/Users/Create');
     }
 
     /**
@@ -114,8 +109,6 @@ class UserController extends Controller
     {
         return Inertia::render('Admin/Users/Edit', [
             'user' => $user,
-            'roles' => UserRole::cases(),
-            'statuses' => UserStatus::cases(),
         ]);
     }
 

@@ -23,16 +23,6 @@ const props = defineProps({
   filters: {
     type: Object,
     default: () => ({})
-  },
-  /** ロール一覧 */
-  roles: {
-    type: Array,
-    required: true
-  },
-  /** ステータス一覧 */
-  statuses: {
-    type: Array,
-    required: true
   }
 })
 
@@ -55,9 +45,9 @@ const { enums } = usePage().props
  */
 const roleOptions = computed(() => [
   { value: '', label: 'すべてのロール' },
-  ...props.roles.map(role => ({
+  ...Object.values(enums.UserRole || {}).map(role => ({
     value: role.value,
-    label: getRoleLabel(role.value)
+    label: role.label
   }))
 ])
 
@@ -66,9 +56,9 @@ const roleOptions = computed(() => [
  */
 const statusOptions = computed(() => [
   { value: '', label: 'すべてのステータス' },
-  ...props.statuses.map(status => ({
+  ...Object.values(enums.UserStatus || {}).map(status => ({
     value: status.value,
-    label: getStatusLabel(status.value)
+    label: status.label
   }))
 ])
 
@@ -178,7 +168,7 @@ const formatDate = (dateString) => {
       <!-- フィルターパネル -->
       <div class="card bg-base-200 shadow mb-6">
         <div class="card-body">
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             <!-- 検索 -->
             <div>
               <SearchInput
@@ -208,17 +198,11 @@ const formatDate = (dateString) => {
               />
             </div>
 
-            <!-- アクション -->
-            <div class="flex gap-2">
-              <button 
-                @click="applyFilters"
-                class="btn btn-primary flex-1"
-              >
-                検索
-              </button>
+            <!-- リセットボタン -->
+            <div>
               <button 
                 @click="resetFilters"
-                class="btn btn-outline"
+                class="btn btn-outline w-full"
               >
                 リセット
               </button>
@@ -277,7 +261,7 @@ const formatDate = (dateString) => {
                   <td class="font-medium">{{ user.name }}</td>
                   <td>{{ user.email }}</td>
                   <td>
-                    <div class="badge badge-outline">
+                    <div class="badge badge-outline whitespace-nowrap">
                       {{ getRoleLabel(user.role) }}
                     </div>
                   </td>
