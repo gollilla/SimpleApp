@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import RootLayout from '@/Layouts/RootLayout.vue';
 import UserStatusBadge from '@/Components/Admin/UserStatusBadge.vue';
 import { Head } from '@inertiajs/vue3';
 import type { UserRole, UserStatus } from '@/types/inertia';
@@ -40,15 +40,13 @@ const getRoleDisplay = (role: UserRole): string => {
 <template>
     <Head title="マイページ" />
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                マイページ
-            </h2>
-        </template>
-
+    <RootLayout>
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <!-- ページヘッダー -->
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">
+                    マイページ
+                </h1>
                 <!-- プロフィール情報 -->
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                     <div class="p-6">
@@ -153,5 +151,5 @@ const getRoleDisplay = (role: UserRole): string => {
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </RootLayout>
 </template>
