@@ -1,26 +1,56 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import NavigationBar from './NavigationBar.vue';
 
 // routeヘルパーをモック
 const mockRoute = vi.fn((name) => `/${name.replace('.', '/')}`)
 
-// Linkコンポーネントをモック
-const MockLink = {
-  name: 'Link',
-  props: ['href', 'method', 'as'],
-  template: '<a :href="href"><slot /></a>'
+// usePageのモックデータ
+let mockPageData = {
+    props: {
+        auth: {
+            user: {
+                id: 1,
+                name: 'Test User',
+                email: 'test@example.com',
+                role: 'user'
+            }
+        }
+    }
 }
 
+// Inertia.jsのモック
+vi.mock('@inertiajs/vue3', () => ({
+    Link: {
+        name: 'Link',
+        props: ['href', 'method', 'as'],
+        template: '<a :href="href"><slot /></a>'
+    },
+    usePage: vi.fn(() => mockPageData)
+}))
+
 describe('NavigationBar', () => {
+    beforeEach(() => {
+        // 各テストの前にデフォルトのユーザーデータをリセット
+        mockPageData = {
+            props: {
+                auth: {
+                    user: {
+                        id: 1,
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        role: 'user'
+                    }
+                }
+            }
+        }
+    })
+
     it('デフォルトのブランドロゴが表示される', () => {
         const wrapper = mount(NavigationBar, {
             global: {
                 mocks: {
                     route: mockRoute
-                },
-                components: {
-                    Link: MockLink
                 }
             }
         });
@@ -37,9 +67,6 @@ describe('NavigationBar', () => {
             global: {
                 mocks: {
                     route: mockRoute
-                },
-                components: {
-                    Link: MockLink
                 }
             }
         });
@@ -52,9 +79,6 @@ describe('NavigationBar', () => {
             global: {
                 mocks: {
                     route: mockRoute
-                },
-                components: {
-                    Link: MockLink
                 }
             }
         });
@@ -68,9 +92,6 @@ describe('NavigationBar', () => {
             global: {
                 mocks: {
                     route: mockRoute
-                },
-                components: {
-                    Link: MockLink
                 }
             }
         });
@@ -79,14 +100,14 @@ describe('NavigationBar', () => {
         expect(menuItems.exists()).toBe(true);
     });
 
-    it('デフォルトのメニュー項目が表示される', () => {
+    it('管理者用のメニュー項目が表示される', () => {
+        // 管理者用のデータを設定
+        mockPageData.props.auth.user.role = 'admin';
+
         const wrapper = mount(NavigationBar, {
             global: {
                 mocks: {
                     route: mockRoute
-                },
-                components: {
-                    Link: MockLink
                 }
             }
         });
@@ -95,17 +116,48 @@ describe('NavigationBar', () => {
         expect(menuText).toContain('ダッシュボード');
         expect(menuText).toContain('ユーザー管理');
         expect(menuText).toContain('システム設定');
+        expect(menuText).toContain('ユーザーレポート');
+        expect(menuText).toContain('システムレポート');
     });
 
+    it('一般ユーザー用のメニュー項目が表示される', () => {
+        // 一般ユーザー用のデータを設定
+        mockPageData.props.auth.user.role = 'user';
+
+        const wrapper = mount(NavigationBar, {
+            global: {
+                mocks: {
+                    route: mockRoute
+                }
+            }
+        });
+        
+        const menuText = wrapper.text();
+        expect(menuText).toContain('ダッシュボード');
+        expect(menuText).toContain('マイページ');
+        expect(menuText).not.toContain('ユーザー管理');
+        expect(menuText).not.toContain('システム設定');
+    });
+
+    it('共通メニュー項目が表示される', () => {
+        const wrapper = mount(NavigationBar, {
+            global: {
+                mocks: {
+                    route: mockRoute
+                }
+            }
+        });
+        
+        const menuText = wrapper.text();
+        expect(menuText).toContain('プロフィール');
+        expect(menuText).toContain('ログアウト');
+    });
 
     it('正しいDaisyUIクラスが適用されている', () => {
         const wrapper = mount(NavigationBar, {
             global: {
                 mocks: {
                     route: mockRoute
-                },
-                components: {
-                    Link: MockLink
                 }
             }
         });
