@@ -44,7 +44,7 @@
                     <!-- 一般ユーザーメニュー -->
                     <template v-else>
                         <li><Link :href="route('dashboard')">🏠 ダッシュボード</Link></li>
-                        <li><Link :href="route('mypage.index')">📋 マイページ</Link></li>
+                        <li><Link :href="route('mypage')">📋 マイページ</Link></li>
                         <li><hr /></li>
                     </template>
                     
